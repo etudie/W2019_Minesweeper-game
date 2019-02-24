@@ -1,5 +1,7 @@
 # C163P2 - MineSweeper Game (README in progress)
 http://minesweeperonline.com/
+
+![alt text](https://i.imgur.com/RzONGT9.png)
 #### Components
 - Java 
 
