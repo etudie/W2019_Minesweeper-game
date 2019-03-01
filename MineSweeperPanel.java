@@ -1,3 +1,9 @@
+/*****************************************************************
+ Handles updates of gameplay and layout of MineSweeper.
+
+ @author Xue Hua
+ @version Winter 2019
+ *****************************************************************/
 package MineSweeper;
 
 import javax.swing.*;
@@ -37,7 +43,7 @@ public class MineSweeperPanel extends JPanel {
      Constructor creates a board of specified size with specified
      mines.
      @param inputSize size of board
-     inputMine number of mines
+     @param inputMine number of mines
      *****************************************************************/
     public MineSweeperPanel(int inputSize, int inputMine) {
         size = inputSize;
@@ -73,7 +79,8 @@ public class MineSweeperPanel extends JPanel {
             for (int col = 0; col < size; col++) {
 
                 // Span each minefield with a blank JButton or Icon
-                board[row][col] = new JButton("", new ImageIcon("src\\images\\facingdown.png"));
+                board[row][col] = new JButton("", new ImageIcon(
+                        "src\\images\\facingdown.png"));
                 board[row][col].addActionListener(listener);
                 final int finalRow = row;
                 final int finalCol = col;
@@ -133,7 +140,7 @@ public class MineSweeperPanel extends JPanel {
 
                     // Set mine if not flagged
                     //board[r][c].setText("!");
-                    board[r][c].setIcon(iconSet(9));
+                    board[r][c].setIcon(iconSet(10));
                 }
                 if (iCell.isExposed()) {
 
@@ -190,7 +197,8 @@ public class MineSweeperPanel extends JPanel {
             // Player loses
             if (game.getGameStatus() == GameStatus.Lost) {
                 displayBoard();
-                JOptionPane.showMessageDialog(null, "You Lose \n The game will reset");
+                JOptionPane.showMessageDialog(null,
+                        "You Lose \n The game will reset");
                 //exposeMines = false;
                 game.reset();
                 displayBoard();
@@ -198,7 +206,8 @@ public class MineSweeperPanel extends JPanel {
 
             // Player wins
             if (game.getGameStatus() == GameStatus.Won) {
-                JOptionPane.showMessageDialog(null, "You Win: all mines have been found!\n The game will reset");
+                JOptionPane.showMessageDialog(null,
+                        "You Win: all mines have been found!\n The game will reset");
                 game.reset();
                 displayBoard();
             }
@@ -236,6 +245,7 @@ public class MineSweeperPanel extends JPanel {
                 // Set to flag icon. 11 is 'flag'
                 board[row][col].setIcon(iconSet(11));
             }
+
     }
 
     /*****************************************************************
@@ -254,8 +264,4 @@ public class MineSweeperPanel extends JPanel {
         icon = new ImageIcon(newImg);
         return icon;
     }
-
 }
-
-
-
