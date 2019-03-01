@@ -1,3 +1,9 @@
+/*****************************************************************
+ Handles GUI of minesweeper, including pop up option panes
+
+ @author Xue Hua
+ @version Winter 2019
+ *****************************************************************/
 package MineSweeper;
 
 import javax.swing.*;
@@ -16,7 +22,7 @@ public class MineSweeperGUI {
      @param void
      @return none
      @throws NumberFormatException if non integer input
-     NullPointerException if input is null
+     @throws NullPointerException if input is null
      *****************************************************************/
     static private void gameSizePrompt() {
 
@@ -24,7 +30,8 @@ public class MineSweeperGUI {
         UIManager.put("OptionPane.cancelButtonText", "QUIT");
         UIManager.put("OptionPane.okButtonText", "NEXT");
         String input = JOptionPane.showInputDialog(null,
-                "Enter Size of board (3-30)\n[ Leaving blank defaults to 10 ]", "10");
+                "Enter Size of board (3-30)\n" +
+                        "[ Leaving blank defaults to 10 ]", "10");
 
         // Checks if valid size input
         try {
@@ -54,11 +61,12 @@ public class MineSweeperGUI {
      @param void
      @return none
      @throws NumberFormatException if non integer input
-     NullPointerException if input is null
+     @throws NullPointerException if input is null
      *****************************************************************/
     static private void gameMinePrompt() {
         String input = JOptionPane.showInputDialog(null,
-                "Mines (1 - " + size + " )\n [Leaving blank defaults to 10]", "10");
+                "Mines (1 - " + size + " )\n " +
+                        "[Leaving blank defaults to 10]", "10");
         // Checks if valid size input
         try {
 
@@ -87,8 +95,10 @@ public class MineSweeperGUI {
      *****************************************************************/
     static private void errorMessage() {
         Object[] options = {"Gracefully Try Again", "Quit!"};
-        int n = JOptionPane.showOptionDialog(null, "Invalid Input\n", "OOPS!",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int n = JOptionPane.showOptionDialog(null,
+                "Invalid Input\n", "OOPS!",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, options, options[0]);
         if (n == JOptionPane.YES_OPTION)
             gameSizePrompt();
         else
@@ -100,10 +110,6 @@ public class MineSweeperGUI {
 
         // Prompt user for board size and number of mines
         gameSizePrompt();
-
-        // A quick overview of the board details
-        JOptionPane.showMessageDialog(null,
-                "Valid Input \nSettings Applied \n Size:\n " + size + "\nMines:\n" + mine);
 
         // Frame setup
         JFrame frame = new JFrame("Mine Sweeper!");
