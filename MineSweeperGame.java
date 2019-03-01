@@ -1,50 +1,63 @@
+/*****************************************************************
+ Handles all gameplay of MineSweeper.
+
+ @author Xue Hua
+ @version Winter 2019
+ *****************************************************************/
 package MineSweeper;
 
 import java.util.Random;
 
 public class MineSweeperGame {
-    /** board size */
+    /** Size of Board */
     public int size;
-    /**
-     * number of mines
-     */
+
+    /** Number of mines */
     public int mine;
+
+    /** Number of won games */
     public int won = 0;
+
+    /** Number of lost games */
     public int loss = 0;
+
+    /** Number of games played */
     public int games = 0;
-    /**
-     * board
-     */
+
+    /** Cells of board **/
     private Cell[][] board;
-    /**
-     * game status
-     */
+
+    /** Status of game */
     private GameStatus status;
-    /**
-     * number of exposed mines
-     */
+
+    /** Number of exposed cells*/
     private int num;
-    /**
-     * virtual board
-     */
+
+    /** Virtual board for counting Mines */
     private int[][] mineCount;
 
-    /* CONSTRUCTOR */
-    public MineSweeperGame(int inputsize, int inputmine) {
-        size = inputsize;
-        mine = inputmine;
+    /** Virtual board for checking Zeroes on non-recursive */
+    private boolean[][] checkZero;
+
+    /*****************************************************************
+     Constructor creates a board of size inputSize with number of mines
+     @param inputSize size of board
+     @param inputMine number of mines
+     *****************************************************************/
+    public MineSweeperGame(int inputSize, int inputMine) {
+        size = inputSize;
+        mine = inputMine;
         status = GameStatus.NotOverYet;
         board = new Cell[size][size];
         mineCount = new int[size][size];
+        checkZero = new boolean[size][size];
         reset();
-
     }
 
     /*****************************************************************
      Method that resets the board, clearing the num Count and the
      relaying the mines.
      @param none
-     inputMine number of mines
      *****************************************************************/
     public void reset() {
         status = GameStatus.NotOverYet;
@@ -52,6 +65,7 @@ public class MineSweeperGame {
             for (int c = 0; c < size; c++) {
                 board[r][c] = new Cell(false, false, false);
                 mineCount[r][c] = 0;
+                checkZero[r][c] = false;
             }
         num = 0;
         layMines(mine);
@@ -61,7 +75,7 @@ public class MineSweeperGame {
     /*****************************************************************
      Getter method for current cell.
      @param row number of current row
-     col number of current col
+     @param col number of current col
      @return board[row][cell] the current cell of the board
      *****************************************************************/
     public Cell getCell(int row, int col) {
@@ -71,7 +85,7 @@ public class MineSweeperGame {
     /*****************************************************************
      Getter method for neighbouring mines on current Cell
      @param row number of current row
-     col number of current col
+     @param col number of current col
      @return mineCount[row][cell] neighbouring mines on current Cell
      *****************************************************************/
     public int getMineCount(int row, int col) {
@@ -81,7 +95,7 @@ public class MineSweeperGame {
     /*****************************************************************
      Setter method to flag current cell
      @param row number of current row
-     col number of current col
+     @param col number of current col
      @return none;
      *****************************************************************/
     public void flag(int row, int col) {
@@ -91,7 +105,7 @@ public class MineSweeperGame {
     /*****************************************************************
      Method that checks if game is lost, won or still in motion
      @param row number of current row
-     col number of current col
+     @param col number of current col
      @return none;
      *****************************************************************/
     public void select(int row, int col) {
@@ -119,21 +133,25 @@ public class MineSweeperGame {
      @param none;
      @return true if all non-mines are exposed;
      *****************************************************************/
-    private boolean ifWinGame() {
+    public boolean ifWinGame() {
         num = 0;
         for (int r = 0; r < size; r++)
-            for (int c = 0; c < size; c++)
-                if (board[r][c].isExposed() && !board[r][c].isMine())
+            for (int c = 0; c < size; c++) {
+                if (board[r][c].isExposed() && !board[r][c].isMine()) {
                     num++;
+                }
+            }
         return (num >= (size * size) - mine);
     }
+
+
 
     /*****************************************************************
      Helper method that recursively seeks neighbouring mines. Stops
      recursion when it encounters a mine or neighbour of a mine.
      Moves in four directions. (Up, Down, Left, Right)
      @param row number of current row
-     col number of current col
+     @param col number of current col
      @return none
      *****************************************************************/
     private void recursiveMineCount(int row, int col) {
@@ -168,6 +186,11 @@ public class MineSweeperGame {
         recursiveMineCount(row + 1, col);
         recursiveMineCount(row, col + 1);
         recursiveMineCount(row, col - 1);
+
+        recursiveMineCount(row +1, col+1);
+        recursiveMineCount(row -1, col+1);
+        recursiveMineCount(row-1, col - 1);
+        recursiveMineCount(row+1, col - 1);
     }
 
     /*****************************************************************
@@ -212,11 +235,6 @@ public class MineSweeperGame {
             }
         }
     }
-
-
 }
-
-
-//  a non-recursive from .... it would be much easier to use recursion
 
 
